@@ -3,9 +3,6 @@ package com.abadock.tips
 import android.os.Bundle
 import android.widget.Button
 import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Switch
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -30,15 +27,11 @@ class MainActivity : AppCompatActivity() {
 
 
         val buttonCalcular : Button = binding.button
-        val textoOutput : TextView = binding.textView2
 
         buttonCalcular.setOnClickListener{
 
-
-            val inputCoste : String = binding.editTextNumber.text.toString()
-
-            if (inputCoste.isEmpty()) {
-                val text = "DALE VALOR A COSTE DLE SERVICIO IMBECIL"
+            if (binding.editTextNumber.text.toString().isEmpty()) {
+                val text = "Falta valor para x"
                 val duration = Toast.LENGTH_SHORT
 
                 val toast = Toast.makeText(this, text, duration) // in Activity
@@ -46,11 +39,7 @@ class MainActivity : AppCompatActivity() {
             }
             else {
 
-                val radioGroup: RadioGroup = binding.tipOptions
-                val selectedId: Int = radioGroup.checkedRadioButtonId
-                val radioButton: RadioButton = findViewById(selectedId)
-
-                val roundCheck: Switch = binding.switch1
+                val radioButton: RadioButton = findViewById(binding.tipOptions.checkedRadioButtonId)
 
                 val selectedCalc: Double = when (radioButton.text) {
                     "Perfecte (20%)" -> 1.2
@@ -59,19 +48,18 @@ class MainActivity : AppCompatActivity() {
                     else -> 1.0
                 }
 
-                val number : Double = inputCoste.toDouble() * selectedCalc
+                val number : Double = binding.editTextNumber.text.toString().toDouble() * selectedCalc
 
-                if (roundCheck.isChecked) {
+                if (binding.switch1.isChecked) {
 
                     val outuput : String = "Total: " + Math.round(number)
-                    textoOutput.text = outuput
+                    binding.textView2.text = outuput
 
                 } else {
-                    val outuput : String = "Total: " + Math.round(number * 10.0) / 10.0
-                    textoOutput.text = outuput
+                    val outuput : String = "Total: " + Math.round(number * 100.0) / 100.0
+                    binding.textView2.text = outuput
                 }
             }
-
         }
     }
 }
